@@ -5,6 +5,7 @@ namespace Starkie.RaspieThermometer.Cli
     using System.IO;
     using System.Linq;
 
+    /// <summary> Represents a thermometer, that allows reading the temperature from it. </summary>
     public class Thermometer
     {
         private readonly string sensorReadingPath;
@@ -20,7 +21,7 @@ namespace Starkie.RaspieThermometer.Cli
                 throw new ArgumentNullException(nameof(devicesPath));
             }
 
-            this.sensorReadingPath = GetThermometerFolder(devicesPath);
+            this.sensorReadingPath = GetThermometerReadingFile(devicesPath);
 
             if (this.sensorReadingPath is null)
             {
@@ -28,12 +29,28 @@ namespace Starkie.RaspieThermometer.Cli
             }
         }
 
-        private static string GetThermometerFolder(string devicesPath)
+        /// <summary>
+        ///     Gets the current temperature from the thermometer. The value is in celsius degrees (ºc).
+        /// </summary>
+        public double Temperature => this.GetTemperature();
+
+        /// <summary>
+        ///     Gets the thermometer's reading file, from where the temperatures will be read.
+        /// </summary>
+        /// <param name="devicesPath"> The devices path, where the thermometer reading folder is located. </param>
+        /// <returns>
+        ///     If the file exists in the given folder, the path to the reading's file.
+        ///     Otherwise, returns null.
+        /// </returns>
+        private static string GetThermometerReadingFile(string devicesPath)
         {
+            // The 'DS18B20' sensor's readings appear in folders starting with the pattern '28-*device_id*.
+            // For example: '28-3c01a816c730'.
             List<string> detectedThermometerSensors = Directory.EnumerateDirectories(devicesPath, "28-*").ToList();
 
             foreach (string sensorPath in detectedThermometerSensors)
             {
+                // The actual readings are in the 'w1_slave' file.
                 string sensorReadingPath = $"{sensorPath}/w1_slave";
 
                 if (!File.Exists(sensorReadingPath))
@@ -47,8 +64,10 @@ namespace Starkie.RaspieThermometer.Cli
             return null;
         }
 
-        public double Temperature => this.GetTemperature();
-
+        /// <summary>
+        ///     Reads the current temperature from the thermometer. The value is in celsius degrees (ºc).
+        /// </summary>
+        /// <returns> The current temperature. </returns>
         private double GetTemperature()
         {
             // Based on the python implementation by Kuman.
