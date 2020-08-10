@@ -54,9 +54,11 @@ namespace Starkie.RaspieThermometer.Cli
             // Based on the python implementation by Kuman.
             string[] sensorReading = File.ReadAllLines(this.sensorReadingPath);
             string temperatureLine = sensorReading[1];
-            temperatureLine.IndexOf("t=");
 
-            int temperatureValue = int.Parse(temperatureLine.Substring(temperatureLine.IndexOf("t=") + 2));
+            string temperatureReading = temperatureLine.Substring(temperatureLine.IndexOf("t=") + 2);
+
+            // TODO: Parse error handling.
+            int.TryParse(temperatureReading, out int temperatureValue);
 
             return temperatureValue / 1000.0;
         }
