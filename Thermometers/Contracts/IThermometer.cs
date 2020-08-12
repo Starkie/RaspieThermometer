@@ -6,6 +6,11 @@ namespace Starkie.RaspieThermometer.Thermometers.Contracts
     public interface IThermometer
     {
         /// <summary>
+        ///     Gets the identifier of the sensor.
+        /// </summary>
+        string Id { get; }
+
+        /// <summary>
         ///     Gets the current temperature from the thermometer. The value is in celsius degrees (ºc).
         /// </summary>
         double Temperature { get; }
