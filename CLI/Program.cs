@@ -1,6 +1,7 @@
 ﻿namespace Starkie.RaspieThermometer.Cli
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading;
     using Starkie.RaspieThermometer.Thermometers;
     using Starkie.RaspieThermometer.Thermometers.Contracts;
@@ -13,11 +14,15 @@
 
         static void Main(string[] args)
         {
-            IThermometer thermometer = new DS18B20Thermometer(DevicesDirectory);
+            IEnumerable<IThermometer> thermometers = DS18B20ThermometerLoader.GetThermometers(DevicesDirectory);
 
             while (true)
             {
-                Console.WriteLine($"The current temperature is: {thermometer.Temperature:0.00}ºc");
+                foreach (IThermometer thermometer in thermometers)
+                {
+                    Console.WriteLine($"{thermometer.Id} - The current temperature is: {thermometer.Temperature:0.00}ºc");
+                }
+
                 Thread.Sleep(TimeSpan.FromSeconds(60));
             }
         }
