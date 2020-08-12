@@ -14,7 +14,7 @@
 
             while (true)
             {
-                Console.WriteLine($"The current temperature is: {thermometer.Temperature}ºc");
+                Console.WriteLine($"The current temperature is: {thermometer.Temperature:0.00}ºc");
                 Thread.Sleep(TimeSpan.FromSeconds(60));
             }
         }
