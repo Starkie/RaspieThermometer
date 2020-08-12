@@ -1,7 +1,7 @@
 ﻿namespace Starkie.RaspieThermometer.Cli
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Threading;
 
     class Program
     {
@@ -15,8 +15,8 @@
             while (true)
             {
                 Console.WriteLine($"The current temperature is: {thermometer.Temperature}ºc");
-                Task.Delay(5000);
-            };
+                Thread.Sleep(TimeSpan.FromSeconds(60));
+            }
         }
     }
 }
