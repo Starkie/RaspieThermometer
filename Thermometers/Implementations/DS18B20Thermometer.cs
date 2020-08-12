@@ -1,4 +1,4 @@
-namespace Starkie.RaspieThermometer.Thermometers
+namespace Starkie.RaspieThermometer.Thermometers.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -6,16 +6,17 @@ namespace Starkie.RaspieThermometer.Thermometers
     using System.Linq;
     using Starkie.RaspieThermometer.Thermometers.Contracts;
 
-    /// <summary> Represents a thermometer, that allows reading the temperature from it. </summary>
-    public class Thermometer : IThermometer
+    /// <summary> Class for the DS18B20 thermometer sensor. </summary>
+    /// <remarks> Implementation based on the sensor working connected to a Raspberry PI. </remarks>
+    public class DS18B20Thermometer : IThermometer
     {
         private readonly string sensorReadingPath;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Thermometer"/> class.
+        ///     Initializes a new instance of the <see cref="DS18B20Thermometer"/> class.
         /// </summary>
         /// <param name="devicesPath"> The path that contains the thermometer devices. </param>
-        public Thermometer(string devicesPath)
+        public DS18B20Thermometer(string devicesPath)
         {
             if (devicesPath is null)
             {

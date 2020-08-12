@@ -3,6 +3,8 @@
     using System;
     using System.Threading;
     using Starkie.RaspieThermometer.Thermometers;
+    using Starkie.RaspieThermometer.Thermometers.Contracts;
+    using Starkie.RaspieThermometer.Thermometers.Implementations;
 
     class Program
     {
@@ -11,7 +13,7 @@
 
         static void Main(string[] args)
         {
-            Thermometer thermometer = new Thermometer(DevicesDirectory);
+            IThermometer thermometer = new DS18B20Thermometer(DevicesDirectory);
 
             while (true)
             {
