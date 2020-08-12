@@ -18,14 +18,14 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         /// <param name="devicesPath"> The path that contains the thermometer devices. </param>
         public DS18B20Thermometer(string devicesPath)
         {
-            if (devicesPath is null)
+            if (string.IsNullOrEmpty(devicesPath))
             {
                 throw new ArgumentNullException(nameof(devicesPath));
             }
 
             this.sensorReadingPath = GetThermometerReadingFile(devicesPath);
 
-            if (this.sensorReadingPath is null)
+            if (string.IsNullOrEmpty(this.sensorReadingPath))
             {
                 throw new FileNotFoundException($"The given {nameof(devicesPath)} does not contain a compatible thermometer sensor.");
             }
