@@ -16,14 +16,21 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         ///     Initializes a new instance of the <see cref="DS18B20Thermometer"/> class.
         /// </summary>
         /// <param name="devicesPath"> The path that contains the thermometer devices. </param>
-        public DS18B20Thermometer(string devicesPath)
+        public DS18B20Thermometer(string id, string devicesPath)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            this.Id = id;
+
             if (string.IsNullOrEmpty(devicesPath))
             {
                 throw new ArgumentNullException(nameof(devicesPath));
             }
 
-            this.sensorReadingPath = GetThermometerReadingFile(devicesPath);
+            this.sensorReadingPath = GetThermometerReadingFile(id, devicesPath);
 
             if (string.IsNullOrEmpty(this.sensorReadingPath))
             {
@@ -34,6 +41,9 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         /// <inheritdoc/>
         public double Temperature => this.GetTemperature();
 
+        /// <inheritdoc/>
+        public string Id { get; }
+
         /// <summary>
         ///     Gets the thermometer's reading file, from where the temperatures will be read.
         /// </summary>
@@ -42,26 +52,17 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         ///     If the file exists in the given folder, the path to the reading's file.
         ///     Otherwise, returns null.
         /// </returns>
-        private static string GetThermometerReadingFile(string devicesPath)
+        private static string GetThermometerReadingFile(string id, string devicesPath)
         {
-            // The 'DS18B20' sensor's readings appear in folders starting with the pattern '28-*device_id*.
-            // For example: '28-3c01a816c730'.
-            List<string> detectedThermometerSensors = Directory.EnumerateDirectories(devicesPath, "28-*").ToList();
+            // The actual readings are in the 'w1_slave' file.
+            string sensorReadingPath = Path.Combine(devicesPath, id, "w1_slave");
 
-            foreach (string sensorPath in detectedThermometerSensors)
+            if (!File.Exists(sensorReadingPath))
             {
-                // The actual readings are in the 'w1_slave' file.
-                string sensorReadingPath = $"{sensorPath}/w1_slave";
-
-                if (!File.Exists(sensorReadingPath))
-                {
-                    continue;
-                }
-
-                return sensorReadingPath;
+                return null;
             }
 
-            return null;
+            return sensorReadingPath;
         }
 
         /// <summary>
