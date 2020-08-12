@@ -1,4 +1,4 @@
-namespace Starkie.RaspieThermometer.Cli
+namespace Starkie.RaspieThermometer.Thermometers
 {
     using System;
     using System.Collections.Generic;

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading;
+    using Starkie.RaspieThermometer.Thermometers;
 
     class Program
     {
