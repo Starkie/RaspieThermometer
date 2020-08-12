@@ -4,9 +4,10 @@ namespace Starkie.RaspieThermometer.Thermometers
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Starkie.RaspieThermometer.Thermometers.Contracts;
 
     /// <summary> Represents a thermometer, that allows reading the temperature from it. </summary>
-    public class Thermometer
+    public class Thermometer : IThermometer
     {
         private readonly string sensorReadingPath;
 
@@ -29,9 +30,7 @@ namespace Starkie.RaspieThermometer.Thermometers
             }
         }
 
-        /// <summary>
-        ///     Gets the current temperature from the thermometer. The value is in celsius degrees (ºc).
-        /// </summary>
+        /// <inheritdoc/>
         public double Temperature => this.GetTemperature();
 
         /// <summary>
