@@ -13,6 +13,6 @@ namespace Starkie.RaspieThermometer.Thermometers.Contracts
         /// <summary>
         ///     Gets the current temperature from the thermometer. The value is in celsius degrees (ºc).
         /// </summary>
-        double Temperature { get; }
+        TemperatureMeasurement Temperature { get; }
     }
 }

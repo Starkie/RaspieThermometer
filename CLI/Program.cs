@@ -20,7 +20,9 @@
             {
                 foreach (IThermometer thermometer in thermometers)
                 {
-                    Console.WriteLine($"{thermometer.Id} - The current temperature is: {thermometer.Temperature:0.00}ºc");
+                    TemperatureMeasurement measurement = thermometer.Temperature;
+
+                    Console.WriteLine($"{measurement.DateTime} - {measurement.SensorId} - The current temperature is: {measurement.Temperature:0.00}ºc");
                 }
 
                 Thread.Sleep(TimeSpan.FromSeconds(60));

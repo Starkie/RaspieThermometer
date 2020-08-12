@@ -39,7 +39,7 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         }
 
         /// <inheritdoc/>
-        public double Temperature => this.GetTemperature();
+        public TemperatureMeasurement Temperature => this.GetTemperature();
 
         /// <inheritdoc/>
         public string Id { get; }
@@ -69,7 +69,7 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         ///     Reads the current temperature from the thermometer. The value is in celsius degrees (ºc).
         /// </summary>
         /// <returns> The current temperature. </returns>
-        private double GetTemperature()
+        private TemperatureMeasurement GetTemperature()
         {
             // Based on the python implementation by Kuman.
             string[] sensorReading = File.ReadAllLines(this.sensorReadingPath);
@@ -80,7 +80,7 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
             // TODO: Parse error handling.
             int.TryParse(temperatureReading, out int temperatureValue);
 
-            return temperatureValue / 1000.0;
+            return new TemperatureMeasurement(this.Id, DateTime.Now, temperatureValue / 1000.0);
         }
     }
 }
