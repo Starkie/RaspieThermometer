@@ -73,8 +73,13 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
         {
             // Based on the python implementation by Kuman.
             string[] sensorReading = File.ReadAllLines(this.sensorReadingPath);
-            string temperatureLine = sensorReading[1];
 
+            if (sensorReading.Length < 2)
+            {
+                return new TemperatureMeasurement(this.Id, MeasurementStatus.Failed, DateTime.Now, default);
+            }
+
+            string temperatureLine = sensorReading[1];
             string temperatureReading = temperatureLine.Substring(temperatureLine.IndexOf("t=") + 2);
 
             // TODO: Parse error handling.
