@@ -80,7 +80,7 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
             // TODO: Parse error handling.
             int.TryParse(temperatureReading, out int temperatureValue);
 
-            return new TemperatureMeasurement(this.Id, DateTime.Now, temperatureValue / 1000.0);
+            return new TemperatureMeasurement(this.Id, MeasurementStatus.Ok, DateTime.Now, temperatureValue / 1000.0);
         }
     }
 }
