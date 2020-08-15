@@ -82,8 +82,12 @@ namespace Starkie.RaspieThermometer.Thermometers.Implementations
             string temperatureLine = sensorReading[1];
             string temperatureReading = temperatureLine.Substring(temperatureLine.IndexOf("t=") + 2);
 
-            // TODO: Parse error handling.
-            int.TryParse(temperatureReading, out int temperatureValue);
+            bool temperatureParsed = int.TryParse(temperatureReading, out int temperatureValue);
+
+            if (!temperatureParsed)
+            {
+                return new TemperatureMeasurement(this.Id, MeasurementStatus.Failed, DateTime.Now, default);
+            }
 
             return new TemperatureMeasurement(this.Id, MeasurementStatus.Ok, DateTime.Now, temperatureValue / 1000.0);
         }
