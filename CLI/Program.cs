@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using Starkie.RaspieThermometer.Thermometers;
     using Starkie.RaspieThermometer.Thermometers.Contracts;
@@ -15,6 +16,13 @@
         static void Main(string[] args)
         {
             IEnumerable<IThermometer> thermometers = DS18B20ThermometerLoader.GetThermometers(DevicesDirectory);
+
+            if (!thermometers.Any())
+            {
+                Console.WriteLine("No thermometers were found.");
+
+                return;
+            }
 
             while (true)
             {
