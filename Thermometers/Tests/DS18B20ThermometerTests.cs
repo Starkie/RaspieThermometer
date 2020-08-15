@@ -32,9 +32,10 @@ namespace Thermometers.Tests
             TemperatureMeasurement temperatureMeasurement = thermometer.Temperature;
 
             // Assert.
-            TemperatureMeasurement expectedMeasurement = new TemperatureMeasurement("28-3c01a816c730", DateTime.Now, 30.062);
+            TemperatureMeasurement expectedMeasurement = new TemperatureMeasurement("28-3c01a816c730", MeasurementStatus.Ok, DateTime.Now, 30.062);
 
             temperatureMeasurement.SensorId.Should().Be(expectedMeasurement.SensorId);
+            temperatureMeasurement.Status.Should().Be(expectedMeasurement.Status);
             temperatureMeasurement.Temperature.Should().Be(expectedMeasurement.Temperature);
         }
     }
